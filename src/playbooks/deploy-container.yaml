@@ -1,0 +1,21 @@
+- name: Playbook to deploy MERN Docker container on AWS EC2 Instances
+  hosts: ec2_nodes
+  tasks:
+    - name: Stop and remove the running docker container
+      community.docker.docker_container:
+        name: mern-tasks-app
+        state: absent
+
+    - name: Start the nodejs_rest_api container
+      community.docker.docker_container:
+        state: started
+        name: nodejs_rest_api
+        image: eswarmaganti/mern-tasks-app:amd64
+        published_ports:
+          - "5001:5001"
+        env:
+          PORT: "5001"
+          MONGODB_URI: "mongodb://AdminUser:AdminUser123@mern-app-documentdb.cluster-cdok4qq8qqdo.us-east-2.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=%2Fapp%2Fglobal-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+      register: run_result
+    - debug:
+        var: run_result

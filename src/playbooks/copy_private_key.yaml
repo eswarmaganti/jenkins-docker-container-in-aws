@@ -1,0 +1,9 @@
+---
+- name: Playbook to copy private key to public bation server
+  hosts: bation_proxy
+  tasks:
+    - name: Copy the private key
+      copy: 
+        src: ~/.ssh/ec2_public_bation
+        dest: ~/.ssh/ec2_public_bation
+        mode: '0400'

@@ -1,0 +1,7 @@
+[proxy]
+bation_proxy ansible_host=3.20.73.26
+
+[ec2_nodes]
+ec2_node1 ansible_host=11.0.4.82
+ec2_node2 ansible_host=11.0.3.221
+ec2_node3 ansible_host=11.0.3.212

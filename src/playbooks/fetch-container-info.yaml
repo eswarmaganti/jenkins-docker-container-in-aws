@@ -1,0 +1,12 @@
+---
+- name: Playbook to get the running docker container details
+  hosts: ec2_nodes
+  tasks:
+    - name: Print running docker container details
+      community.docker.docker_container_info:
+        name: nodejs_rest_api
+      register: result
+
+    - name: Printing the container details
+      debug: 
+        var: result
