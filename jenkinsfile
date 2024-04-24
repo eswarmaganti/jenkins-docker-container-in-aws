@@ -1,0 +1,52 @@
+pipeline{
+    agent any
+    stages{
+        stage('Checkout'){
+            steps{
+                git url:'https://github.com/eswarmaganti/jenkins-docker-container-in-aws.git' ,branch: 'main'
+            }
+        }
+        stage('Decrypt Ansible Hostvars Files'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId:'ansible-secret', variable:'secret')]){
+                        sh 'python3 src/utils.py ${env} decrypt ${secret_key}'
+                    }
+                }
+            }
+        }
+        stage('Fetch Container Info'){
+            steps{
+                script{
+                    sh 'python3 src/main.py ${env} info'
+                }
+            }
+        }
+        stage('Deploy the Docker Container'){
+            steps{
+                script{
+                    if (action == 'deploy'){
+                        sh 'python3 src/main.py ${env} deploy'
+                    }
+                }
+            }
+        }
+        stage('Stop the Docker Container'){
+            steps{
+                script{
+                    if (action == 'stop'){
+                        sh 'python3 src/main.py ${env} stop'
+                    }
+                }
+            }
+        }
+    }
+    post{
+        success{
+            echo "*** Info: Pipeline run successfully completed ***"
+        }
+        failure{
+            echo "*** Error: Pipeline run failed ***"
+        }
+    }
+}

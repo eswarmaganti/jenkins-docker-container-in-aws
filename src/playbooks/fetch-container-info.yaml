@@ -1,6 +1,6 @@
 ---
 - name: Playbook to get the running docker container details
-  hosts: ec2_nodes
+  hosts: dev_ec2_nodes
   tasks:
     - name: Print running docker container details
       community.docker.docker_container_info:

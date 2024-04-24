@@ -1,5 +1,5 @@
 - name: Playbook to deploy MERN Docker container on AWS EC2 Instances
-  hosts: ec2_nodes
+  hosts: dev_ec2_nodes
   tasks:
     - name: Stop and remove the running docker container
       community.docker.docker_container:

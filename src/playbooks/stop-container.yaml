@@ -1,0 +1,12 @@
+---
+- name: Playboook to stop the running containers in remote server
+  hosts: dev_ec2_nodes
+  tasks:
+    - name: Stopping the docker container of mern tasks app
+      community.docker.docker_container:
+        name: mern-tasks-app
+        state: absent
+      register: output
+    - name: Logging the Stop container output
+      debug:
+        var: output
